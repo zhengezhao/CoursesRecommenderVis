@@ -214,7 +214,7 @@ matrix_width = 800;
 d3.select("#area1").select("g").remove();
 d3.select("#area2").select("g").remove();
 parallel("./parallel_coordinate_data/" + nodes[d.y].id + '-' + nodes[d.x].id+ ".txt");
-barchart("./bar_chart_data/" + nodes[d.y].id + ".csv");
+barchart("./bar_chart_data/" + nodes[d.x].id + ".csv");
 //barchart("bar-data.csv");
 	})
 
