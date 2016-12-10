@@ -9,7 +9,7 @@ var margin = {top: 20, right: 40, bottom: 70, left: 40},
 
 // Parse the date / time
 
-var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .05, .8);
 
 var y = d3.scale.linear().range([height, 0]);
 
@@ -34,6 +34,8 @@ d3.csv(infile, function(error, data) {
     data.forEach(function(d) {
         d.date = d.date;
         d.value = +d.value;
+	console.log(d.date);
+	console.log(d.value);
     });
 	
   x.domain(data.map(function(d) { return d.date; }));
@@ -61,9 +63,10 @@ d3.csv(infile, function(error, data) {
   svg.selectAll("bar")
       .data(data)
     .enter().append("rect")
-      .style("fill", "steelblue")
+      .style("fill", "red")
       .attr("x", function(d) { return x(d.date); })
-      .attr("width", x.rangeBand())
+.attr("fill-opacity", function(d) { return 0.1 * d.value; })
+      .attr("width", Math.min(x.rangeBand(),100))
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); });
 
@@ -127,6 +130,7 @@ d3.csv(input, function(error, cars) {
         .selectAll("path")
         .data(cars)
         .enter().append("path")
+      .style("stroke", "red")
         .attr("d", path);
 
     // Add a group element for each dimension.
@@ -208,13 +212,14 @@ matrix_width = 800;
       .style("stroke", "black")
       .style("stroke-width", "1px")
       .style("fill", "red")
-      .style("fill-opacity", function (d) {return d.weight * .2})
+      .style("fill-opacity", function (d) {return d.weight * .1})
       .on("mouseover", gridOver)
       .on("click",function (d,i){
 d3.select("#area1").select("g").remove();
 d3.select("#area2").select("g").remove();
 parallel("./parallel_coordinate_data/" + nodes[d.y].id + '-' + nodes[d.x].id+ ".txt");
-barchart("./bar_chart_data/" + nodes[d.x].id + ".csv");
+barchart("./bar_chart_data/" + nodes[d.x].id + "1.csv");
+console.log(nodes[d.x].id)
 //barchart("bar-data.csv");
 	})
 
